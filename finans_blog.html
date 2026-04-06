@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ayberk'in Dünyası</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f8f9fa;--white:#fff;--gray1:#f1f3f5;--gray2:#e9ecef;--gray3:#adb5bd;--gray4:#495057;--dark:#212529;--accent:#1a1a2e;--green:#2d6a4f;--red:#c0392b;--font:'Inter',sans-serif}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+body{font-family:var(--font);background:var(--bg);color:var(--dark)}
+nav{background:#fff;border-bottom:1px solid var(--gray2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.logo{font-size:1.2rem;font-weight:800;color:var(--accent)}.logo span{color:var(--gray3)}
+.nav-links a{text-decoration:none;color:var(--gray4);font-size:.875rem;font-weight:500;margin-left:1.5rem}
+.nav-right{display:flex;align-items:center;gap:.4rem}
+.lang-btn{padding:.25rem .6rem;border-radius:20px;border:1px solid var(--gray2);background:#fff;color:var(--gray4);font-size:.72rem;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.lang-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hero{background:#fff;border-bottom:1px solid var(--gray2);padding:3rem 2rem;text-align:center}
+.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:-1px;color:var(--accent);margin-bottom:.75rem}
+.hero p{color:var(--gray4);font-size:1rem;max-width:500px;margin:0 auto}
+.ticker{background:var(--accent);color:#fff;padding:.5rem 0;overflow:hidden;font-size:.78rem;font-weight:500}
+.ticker-inner{display:flex;gap:0;white-space:nowrap;animation:scroll 35s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick-item{display:flex;align-items:center;gap:.4rem;padding:0 1.25rem;border-right:1px solid rgba(255,255,255,.15)}
+.tick-label{color:rgba(255,255,255,.7);font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.tick-val{font-size:.82rem;font-weight:700}
+.tick-chg{font-size:.68rem;font-weight:600;margin-left:.15rem}
+.up{color:#4ade80}.down{color:#f87171}
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:2rem}
+@media(max-width:768px){.grid{grid-template-columns:1fr}}
+.section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray3);margin-bottom:1.25rem}
+.articles{display:flex;flex-direction:column;gap:1.25rem}
+.card{background:#fff;border:1px solid var(--gray2);border-radius:12px;padding:1.5rem;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:#ced4da;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.card-tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:.25rem .6rem;border-radius:20px;margin-bottom:.75rem}
+.tag-makro{background:#e8f4fd;color:#1a6fa6}.tag-yatirim{background:#e8f8f0;color:#1a6a3f}
+.tag-kripto{background:#fef3e8;color:#a66a1a}.tag-politika{background:#fce8e8;color:#a61a1a}
+.card h2{font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:.5rem;line-height:1.4}
+.card p{font-size:.875rem;color:var(--gray4);line-height:1.6;margin-bottom:1rem}
+.card-meta{display:flex;justify-content:space-between;align-items:center}
+.card-date{font-size:.75rem;color:var(--gray3)}
+.btn-ai{background:var(--accent);color:#fff;border:none;padding:.4rem .9rem;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer}
+.sidebar{display:flex;flex-direction:column;gap:1.25rem}
+.sidebar-card{background:#fff;border:1px solid var(--gray2);border-radius:12px;padding:1.25rem}
+.sidebar-card h3{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray3);margin-bottom:1rem}
+.chat-messages{max-height:240px;overflow-y:auto;margin-bottom:.75rem;display:flex;flex-direction:column;gap:.6rem}
+.msg{padding:.6rem .8rem;border-radius:10px;font-size:.82rem;line-height:1.5}
+.msg.user{background:var(--accent);color:#fff;align-self:flex-end;max-width:85%}
+.msg.ai{background:var(--gray1);color:var(--dark);align-self:flex-start;max-width:90%}
+.chat-input-row{display:flex;gap:.5rem}
+.chat-input-row input{flex:1;border:1px solid var(--gray2);border-radius:8px;padding:.5rem .75rem;font-size:.82rem;font-family:var(--font);outline:none;background:var(--gray1)}
+.chat-input-row button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:.5rem .8rem;cursor:pointer;font-size:.82rem;font-weight:600}
+.market-list{display:flex;flex-direction:column;gap:.6rem}
+.market-item{display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+.port-row{display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid var(--gray1)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:16px;padding:2rem;max-width:560px;width:90%;max-height:80vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:1rem;right:1rem;background:var(--gray1);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:1rem;color:var(--gray4)}
+.modal-summary{font-size:.875rem;color:var(--gray4);line-height:1.7;margin-top:1rem;border-top:1px solid var(--gray2);padding-top:1rem}
+.risk-section{background:#fff;border-top:1px solid var(--gray2);padding:2.5rem 0}
+.risk-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem}
+.risk-tab{padding:.35rem .85rem;border-radius:20px;border:1px solid var(--gray2);background:#fff;color:var(--gray4);font-size:.75rem;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.risk-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.risk-grid{display:grid;grid-template-columns:320px 1fr;gap:1.5rem}
+@media(max-width:700px){.risk-grid{grid-template-columns:1fr}}
+.risk-left{background:var(--gray1);border:1px solid var(--gray2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem}
+.risk-right{background:var(--gray1);border:1px solid var(--gray2);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.score-badge{display:flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:800;line-height:1}
+.perf-bar-wrap{width:100%}
+.perf-bar-track{position:relative;height:14px;border-radius:7px;background:linear-gradient(to right,#2d9e6b 0%,#6abf4b 20%,#f5c518 45%,#f08c1a 68%,#c0392b 100%);overflow:visible;margin:.35rem 0}
+.perf-bar-marker{position:absolute;top:-4px;width:5px;height:22px;background:#1a1a2e;border-radius:3px;transform:translateX(-50%)}
+.cal-section{background:#fff;border-top:1px solid var(--gray2);padding:2.5rem 0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Ayberk'in<span> Dünyası</span></div>
+  <div class="nav-right">
+    <div style="display:flex;gap:.3rem">
+      <button class="lang-btn active" onclick="setLang('TR')">🇹🇷 TR</button>
+      <button class="lang-btn" onclick="setLang('EN')">🇬🇧 EN</button>
+      <button class="lang-btn" onclick="setLang('NL')">🇳🇱 NL</button>
+    </div>
+  </div>
+</nav>
+
+<div class="ticker"><div class="ticker-inner" id="ticker">Yükleniyor...</div></div>
+
+<div class="hero">
+  <h1 data-i18n="hero_title">Ayberk'in gözünden<br/>ekonomi & finans.</h1>
+  <p data-i18n="hero_sub">Güncel piyasa analizleri, yatırım fikirleri ve ekonomi yorumları — sade ve anlaşılır.</p>
+</div>
+
+<div class="container">
+  <div class="grid">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <div class="section-title" style="margin-bottom:0" data-i18n="latest_news">Son Haberler</div>
+      </div>
+      <div class="articles" id="articles"></div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-card">
+        <h3 data-i18n="portfolio">💼 Portföyüm</h3>
+        <div id="portfolio-list"></div>
+      </div>
+      <div class="sidebar-card">
+        <h3 data-i18n="ai_assistant">✦ AI Finans Asistanı</h3>
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg ai" data-i18n="chat_welcome">Merhaba! Ekonomi, yatırım veya finans hakkında ne sormak istersiniz?</div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" data-i18n-placeholder="chat_placeholder"/>
+          <button onclick="sendChat()">→</button>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <h3 data-i18n="market_indicator">Piyasa Göstergesi</h3>
+        <div class="market-list" id="market-list"></div>
+      </div>
+      <div class="sidebar-card">
+        <h3 data-i18n="trending">Trend Konular</h3>
+        <ul id="trend-list" style="list-style:none;display:flex;flex-direction:column;gap:.5rem"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RİSKOMETRE -->
+<div class="risk-section">
+  <div class="container" style="padding-top:0;padding-bottom:0">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem">
+      <div class="section-title" style="margin-bottom:0" data-i18n="riskometer">Fibabanka Riskometre</div>
+      <span style="font-size:.72rem;font-weight:600;color:var(--gray3);background:var(--gray1);padding:.3rem .8rem;border-radius:20px;border:1px solid var(--gray2)" data-i18n="risk_date">30 Mart – 5 Nisan 2026</span>
+    </div>
+    <div class="risk-tabs" id="risk-tabs"></div>
+    <div class="risk-grid">
+      <div class="risk-left">
+        <div id="risk-title" style="font-size:1.05rem;font-weight:800;color:var(--accent);letter-spacing:.5px"></div>
+        <canvas id="gauge-canvas" width="280" height="160"></canvas>
+        <div style="display:flex;gap:1.25rem;justify-content:center;align-items:flex-end">
+          <div style="text-align:center"><div id="s-now" class="score-badge" style="width:52px;height:52px;font-size:1.15rem"></div><div style="font-size:.65rem;color:var(--gray3);margin-top:.4rem;font-weight:600" data-i18n="this_week">Bu hafta</div></div>
+          <div style="text-align:center"><div id="s-prev" class="score-badge" style="width:42px;height:42px;font-size:.95rem"></div><div style="font-size:.65rem;color:var(--gray3);margin-top:.4rem;font-weight:600" data-i18n="one_week_ago">1 hafta önce</div></div>
+          <div style="text-align:center"><div id="s-month" class="score-badge" style="width:42px;height:42px;font-size:.95rem"></div><div style="font-size:.65rem;color:var(--gray3);margin-top:.4rem;font-weight:600" data-i18n="one_month_ago">1 ay önce</div></div>
+        </div>
+      </div>
+      <div class="risk-right">
+        <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray3)" data-i18n="this_weeks_analysis">Bu Haftanın Analizi</div>
+        <div id="risk-c1" style="font-size:.875rem;color:var(--dark);line-height:1.7"></div>
+        <div id="risk-c2" style="font-size:.85rem;color:var(--gray4);line-height:1.7;border-top:1px solid var(--gray2);padding-top:.75rem"></div>
+        <div class="perf-bar-wrap" style="margin-top:auto">
+          <div style="font-size:.68rem;font-weight:600;color:var(--gray3);margin-bottom:.3rem" data-i18n="region_perf">Bulunduğu Bölgenin Performansı</div>
+          <div class="perf-bar-track"><div class="perf-bar-marker" id="perf-marker"></div></div>
+          <div style="display:flex;justify-content:space-between">
+            <span id="p-min" style="font-size:.7rem;color:var(--gray3)"></span>
+            <span id="p-val" style="font-size:.75rem;font-weight:700;color:var(--accent)"></span>
+            <span id="p-max" style="font-size:.7rem;color:var(--gray3)"></span>
+          </div>
+        </div>
+        <div style="font-size:.7rem;color:var(--gray3);border-top:1px solid var(--gray2);padding-top:.6rem;line-height:1.5" data-i18n="risk_disclaimer">Bu rapor ArfCap tarafından hazırlanmaktadır. Burada yer alan bilgiler yatırım danışmanlığı kapsamında değildir.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAKVİM -->
+<div class="cal-section">
+  <div class="container" style="padding-top:0;padding-bottom:0">
+    <div class="section-title" data-i18n="econ_calendar">Ekonomik Takvim</div>
+    <div style="background:#fff;border:1px solid var(--gray2);border-radius:12px;overflow:hidden;padding:1rem">
+      <iframe src="https://sslecal2.investing.com?ecoDayBackground=%23ffffff&columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&features=datepicker,timezone,filters&countries=25,32,6,37,72,22,17,39,14,10,35&calType=week&timeZone=18&lang=9"
+        width="100%" height="600" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0"
+        style="border-radius:8px;display:block"></iframe>
+      <div style="font-size:.7rem;color:var(--gray3);margin-top:.6rem;text-align:right">
+        <span data-i18n="source">Kaynak</span>: <a href="https://tr.investing.com/economic-calendar/" target="_blank" style="color:var(--gray3)">Investing.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="card-tag" id="modal-tag"></div>
+    <h3 id="modal-title"></h3>
+    <div class="modal-summary" id="modal-summary"></div>
+  </div>
+</div>
+
+<script>
+// ===== API KEYS =====
+const FK = "d77nin1r01qp6afm8khgd77nin1r01qp6afm8ki0";
+const TK = "8574da61b8ea4b38b485dd3586410373";
+
+// ===== ÇOK DİLLİ METİNLER =====
+const i18n = {
+  TR: {
+    nav_macro:"Makro", nav_invest:"Yatırım", nav_crypto:"Kripto", nav_politics:"Politika",
+    hero_title:"Ayberk'in gözünden<br/>ekonomi & finans.",
+    hero_sub:"Güncel piyasa analizleri, yatırım fikirleri ve ekonomi yorumları — sade ve anlaşılır.",
+    latest_news:"Son Haberler",
+    portfolio:"💼 Portföyüm",
+    ai_assistant:"✦ AI Finans Asistanı",
+    chat_welcome:"Merhaba! Ekonomi, yatırım veya finans hakkında ne sormak istersiniz?",
+    chat_placeholder:"Soru sor…",
+    market_indicator:"Piyasa Göstergesi",
+    trending:"Trend Konular",
+    trend_items:["Fed faiz kararları ve 2026 beklentileri","Enflasyonla mücadelede merkez bankaları","Altın yeni zirvelerde — ne kadar sürer?","Bitcoin ETF sonrası kripto piyasası","Türkiye ekonomisinde dönüşüm sinyalleri"],
+    riskometer:"Fibabanka Riskometre",
+    risk_date:"30 Mart – 5 Nisan 2026",
+    this_week:"Bu hafta", one_week_ago:"1 hafta önce", one_month_ago:"1 ay önce",
+    this_weeks_analysis:"Bu Haftanın Analizi",
+    region_perf:"Bulunduğu Bölgenin Performansı",
+    risk_disclaimer:"Bu rapor ArfCap tarafından hazırlanmaktadır. Burada yer alan bilgiler yatırım danışmanlığı kapsamında değildir.",
+    econ_calendar:"Ekonomik Takvim",
+    source:"Kaynak",
+    read_article:"Haberi oku →",
+    translating:"Haberler çevriliyor...",
+    loading_news:"Haberler yükleniyor...",
+    ai_system:"Ayberk'in Dünyası blogunun AI asistanısın. Ekonomi, finans, yatırım hakkında kısa anlaşılır Türkçe cevaplar ver.",
+    translate_target:"Turkish",
+    money_market:"Para piyasası",
+    thinking:"Düşünüyor…", error:"Hata oluştu.",
+    ai_summary_loading:"AI özeti oluşturuluyor…",
+    ai_system_summary:"Finans editörüsün. Makaleyi 3-4 cümleyle özetle. Sade Türkçe.",
+    port_title:"Para piyasası",
+  },
+  EN: {
+    nav_macro:"Macro", nav_invest:"Invest", nav_crypto:"Crypto", nav_politics:"Politics",
+    hero_title:"Economy & Finance<br/>through Ayberk's eyes.",
+    hero_sub:"Current market analyses, investment ideas and economic commentary — simple and clear.",
+    latest_news:"Latest News",
+    portfolio:"💼 My Portfolio",
+    ai_assistant:"✦ AI Finance Assistant",
+    chat_welcome:"Hello! What would you like to ask about economics, investments or finance?",
+    chat_placeholder:"Ask a question…",
+    market_indicator:"Market Indicator",
+    trending:"Trending Topics",
+    trend_items:["Fed rate decisions and 2026 expectations","Central banks fighting inflation","Gold at new highs — how long will it last?","Crypto market after Bitcoin ETF","Transformation signals in Turkey's economy"],
+    riskometer:"Fibabanka Risk Meter",
+    risk_date:"Mar 30 – Apr 5, 2026",
+    this_week:"This week", one_week_ago:"1 week ago", one_month_ago:"1 month ago",
+    this_weeks_analysis:"This Week's Analysis",
+    region_perf:"Performance of Current Zone",
+    risk_disclaimer:"This report is prepared by ArfCap. The information here does not constitute investment advice.",
+    econ_calendar:"Economic Calendar",
+    source:"Source",
+    read_article:"Read article →",
+    translating:"Translating news...",
+    loading_news:"Loading news...",
+    ai_system:"You are the AI assistant of Ayberk's World blog. Give short, clear answers about economics, finance and investments in English.",
+    translate_target:null,
+    money_market:"Money market",
+    thinking:"Thinking…", error:"An error occurred.",
+    ai_summary_loading:"Generating AI summary…",
+    ai_system_summary:"You are a finance editor. Summarize the article in 3-4 sentences. Clear English.",
+    port_title:"Money market",
+  },
+  NL: {
+    nav_macro:"Macro", nav_invest:"Beleggen", nav_crypto:"Crypto", nav_politics:"Politiek",
+    hero_title:"Economie & Financiën<br/>door de ogen van Ayberk.",
+    hero_sub:"Actuele marktanalyses, beleggingsideeën en economisch commentaar — eenvoudig en duidelijk.",
+    latest_news:"Laatste Nieuws",
+    portfolio:"💼 Mijn Portfolio",
+    ai_assistant:"✦ AI Financieel Assistent",
+    chat_welcome:"Hallo! Wat wilt u vragen over economie, beleggingen of financiën?",
+    chat_placeholder:"Stel een vraag…",
+    market_indicator:"Marktindicator",
+    trending:"Trending Onderwerpen",
+    trend_items:["Fed rentebeslissingen en verwachtingen 2026","Centrale banken in de strijd tegen inflatie","Goud op nieuwe hoogtes — hoe lang nog?","Cryptomarkt na Bitcoin ETF","Transformatiesignalen in de Turkse economie"],
+    riskometer:"Fibabanka Riskmeter",
+    risk_date:"30 mrt – 5 apr 2026",
+    this_week:"Deze week", one_week_ago:"1 week geleden", one_month_ago:"1 maand geleden",
+    this_weeks_analysis:"Analyse van deze week",
+    region_perf:"Prestatie van huidige zone",
+    risk_disclaimer:"Dit rapport is opgesteld door ArfCap. De informatie hier vormt geen beleggingsadvies.",
+    econ_calendar:"Economische Kalender",
+    source:"Bron",
+    read_article:"Lees artikel →",
+    translating:"Nieuws vertalen...",
+    loading_news:"Nieuws laden...",
+    ai_system:"Je bent de AI-assistent van de blog Ayberk's Wereld. Geef korte, duidelijke antwoorden over economie, financiën en beleggingen in het Nederlands.",
+    translate_target:"Nederlands",
+    money_market:"Geldmarkt",
+    thinking:"Denken…", error:"Er is een fout opgetreden.",
+    ai_summary_loading:"AI-samenvatting genereren…",
+    ai_system_summary:"Je bent een financieel redacteur. Vat het artikel samen in 3-4 zinnen. Duidelijk Nederlands.",
+    port_title:"Geldmarkt",
+  }
+};
+
+let siteLang = "TR";
+
+function t(key){ return i18n[siteLang][key] || i18n.TR[key] || key; }
+
+function applyI18n(){
+  // data-i18n
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.getAttribute("data-i18n");
+    el.innerHTML=t(key);
+  });
+  // data-i18n-placeholder
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    el.placeholder=t(el.getAttribute("data-i18n-placeholder"));
+  });
+  // trend listesi
+  const tl=document.getElementById("trend-list");
+  if(tl){
+    tl.innerHTML=(t("trend_items")||[]).map((item,i)=>`
+      <li style="display:flex;gap:.6rem;font-size:.82rem;color:var(--gray4)">
+        <span style="font-weight:700;color:var(--gray3);min-width:18px">0${i+1}</span>${item}
+      </li>`).join("");
+  }
+  // html lang attr
+  document.documentElement.lang = siteLang==="TR"?"tr":siteLang==="NL"?"nl":"en";
+}
+
+function setLang(l){
+  siteLang=l;
+  document.querySelectorAll(".lang-btn").forEach(b=>{
+    b.classList.toggle("active", b.textContent.includes(l));
+  });
+  applyI18n();
+  renderNews(); // haberleri yeniden çevir
+}
+
+// ===== VERİLER =====
+const portfolio=[
+  {t:"VIG",  n:"Vanguard Dividend Appreciation ETF"},
+  {t:"MGV",  n:"Vanguard Mega Cap Value ETF"},
+  {t:"ASTS", n:"AST SpaceMobile"},
+  {t:"LUNR", n:"Intuitive Machines"},
+  {t:"GOOGL",n:"Alphabet Inc."},
+  {t:"MSFT", n:"Microsoft Corporation"},
+  {t:"NVDA", n:"NVIDIA Corporation"},
+  {t:"WDC",  n:"Western Digital"},
+  {t:"AVGO", n:"Broadcom Inc."},
+  {t:"TSLA", n:"Tesla Inc."},
+  {t:"ORCL", n:"Oracle Corporation"},
+  {t:"TI1",  n:"İsportfoy Para Piyasası Fonu", special:true},
+];
+
+const riskData={
+  "BIST 100":{now:90,prev:85,month:24,c1:"BIST 100 modeli 1 aylık dönemde <b>aşırı riskli</b> yöne doğru hareket etmiştir.",c2:"Modelin aşırı riskli yöne ilerlediği 1 aylık dönemde BIST100 Endeksi yaklaşık <b>%8.15 değer kaybetmiştir</b>.",pMin:-19.59,pVal:-4.90,pMax:4.15},
+  "BIST TEKNOLOJİ":{now:73,prev:75,month:48,c1:"Riskli bölgede bulunan BIST Teknoloji modeli bu hafta <b>düşük riskli yöne</b> ilerlemiştir.",c2:"BIST Teknoloji modelinin haftalık getirisi stabil seyretmiştir.",pMin:-16.26,pVal:-2.67,pMax:14.09},
+  "BIST BANKACILIK":{now:100,prev:83,month:24,c1:"BIST Bankacılık modeli bu hafta ve 1 aylık dönemde <b>riskli yöne</b> ilerlemiştir.",c2:"Modelin aşırı riskli yöne hareket ettiği 1 ayda BIST Bankacılık Endeksi <b>%23.2 civarında değer kaybı</b> yaşamıştır.",pMin:-16.68,pVal:-8.63,pMax:4.24},
+  "BIST SINAİ":{now:86,prev:80,month:18,c1:"BIST Sınai modeli bu hafta <b>aşırı riskli bölgeye geçiş</b> yapmıştır.",c2:"Modelin riskli yöne ilerlediği 1 aylık dönemde BIST Sınai Endeksi yaklaşık <b>%4.4 değer kaybetmiştir</b>.",pMin:-17.95,pVal:0.00,pMax:11.03},
+  "ALTIN":{now:86,prev:73,month:1,c1:"Altın modeli bu hafta <b>aşırı riskli bölgeye geçiş</b> yapmıştır.",c2:"Modelin aşırı riskli yöne hareket ettiği 1 ayda Altın <b>%14.3 civarında değer kaybı</b> yaşamıştır.",pMin:-16.30,pVal:1.17,pMax:1.55},
+  "S&P 500":{now:87,prev:73,month:45,c1:"ABD Hisse Senedi modeli bu hafta <b>aşırı riskli bölgeye geçiş</b> yapmıştır.",c2:"S&P Endeksi yaklaşık <b>%6 değer kaybetmiştir</b>.",pMin:-27.92,pVal:-1.58,pMax:2.86},
+  "NASDAQ":{now:55,prev:57,month:64,c1:"NASDAQ modeli bu hafta <b>nötr bölgede düşük riskli yöne</b> doğru ilerlemiştir.",c2:"NASDAQ Endeksi <b>%3.25 değer kaybı</b> yaşamıştır.",pMin:-6.32,pVal:-1.74,pMax:6.90},
+  "DAX":{now:100,prev:100,month:52,c1:"DAX modeli bu hafta <b>maksimum değerinde konumunu korumuştur</b>.",c2:"DAX Endeksi yaklaşık <b>%12 değer kaybı</b> yaşamıştır.",pMin:-23.05,pVal:-5.27,pMax:3.66},
+  "NİKKEİ":{now:76,prev:66,month:44,c1:"Japonya Hisse Senedi modeli bu hafta <b>riskli yöne</b> doğru hareket etmiştir.",c2:"Nikkei Endeksi yaklaşık <b>%9.35 değer kaybetmiştir</b>.",pMin:-2.78,pVal:-1.71,pMax:2.82},
+  "PETROL":{now:2,prev:1,month:5,c1:"Petrol modeli <b>düşük riskli bölge</b> içerisinde hareket etmiştir.",c2:"Modelin düşük riskli yöne ilerlediği 1 ayda Petrol yaklaşık <b>%54.9 getiri</b> yapmıştır.",pMin:-1.53,pVal:62.49,pMax:22.00},
+  "GÜMÜŞ":{now:100,prev:91,month:42,c1:"Gümüş modeli <b>maksimum değerine ulaşmıştır</b>.",c2:"Gümüş fiyatları yaklaşık <b>%23 değer kaybı</b> yaşamıştır.",pMin:-19.76,pVal:-5.64,pMax:4.71},
+  "GBPUSD":{now:100,prev:84,month:11,c1:"GBPUSD modeli <b>aşırı riskli yöne</b> doğru hareket etmiştir.",c2:"GBPUSD paritesi yaklaşık <b>%1.85 değer kaybetmiştir</b>.",pMin:-24.27,pVal:0.22,pMax:0.94},
+  "EURUSD":{now:85,prev:92,month:62,c1:"EURUSD modeli bu hafta <b>düşük riskli yöne</b> ilerlemiştir.",c2:"EURUSD paritesi <b>%2.5 değer kaybı</b> yaşamıştır.",pMin:-20.14,pVal:-1.01,pMax:1.23},
+};
+
+let activeRisk="BIST 100";
+
+// ===== CANLI VERİ =====
+async function loadLiveData() {
+  try {
+    const btcRes = await fetch("https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT");
+    const btc = await btcRes.json();
+    const btcPrice=parseFloat(btc.lastPrice), btcPct=parseFloat(btc.priceChangePercent), btcUp=btcPct>=0;
+    const stocks=["VIG","MGV","ASTS","LUNR","GOOGL","MSFT","NVDA","WDC","AVGO","TSLA","ORCL"];
+    const st={};
+    await Promise.all(stocks.map(async s=>{
+      try{const d=await fetch(`https://finnhub.io/api/v1/quote?symbol=${s}&token=${FK}`).then(r=>r.json());if(d?.c)st[s]=d;}catch(e){}
+    }));
+    const fxSyms=["USD/TRY","EUR/TRY","GBP/TRY","XAU/USD","EUR/USD","XAG/USD"];
+    const fx={};
+    await Promise.all(fxSyms.map(async s=>{
+      try{const d=await fetch(`https://api.twelvedata.com/price?symbol=${encodeURIComponent(s)}&apikey=${TK}`).then(r=>r.json());if(d?.price)fx[s]=parseFloat(d.price);}catch(e){}
+    }));
+    const tickDefs=[
+      {l:"USD/TRY",v:fx["USD/TRY"],cat:"DÖVİZ"},{l:"EUR/TRY",v:fx["EUR/TRY"],cat:"DÖVİZ"},
+      {l:"GBP/TRY",v:fx["GBP/TRY"],cat:"DÖVİZ"},{l:"Altın/USD",v:fx["XAU/USD"],cat:"EMTİA"},
+      {l:"Gümüş",v:fx["XAG/USD"],cat:"EMTİA"},{l:"Bitcoin",v:btcPrice,pct:btcPct,up:btcUp,cat:"KRİPTO"},
+      {l:"EUR/USD",v:fx["EUR/USD"],cat:"DÖVİZ"},{l:"MSFT",v:st["MSFT"]?.c,d:st["MSFT"]?.d,dp:st["MSFT"]?.dp,cat:"HİSSE"},
+      {l:"NVDA",v:st["NVDA"]?.c,d:st["NVDA"]?.d,dp:st["NVDA"]?.dp,cat:"HİSSE"},
+      {l:"TSLA",v:st["TSLA"]?.c,d:st["TSLA"]?.d,dp:st["TSLA"]?.dp,cat:"HİSSE"},
+      {l:"GOOGL",v:st["GOOGL"]?.c,d:st["GOOGL"]?.d,dp:st["GOOGL"]?.dp,cat:"HİSSE"},
+      {l:"ASTS",v:st["ASTS"]?.c,d:st["ASTS"]?.d,dp:st["ASTS"]?.dp,cat:"HİSSE"},
+      {l:"AVGO",v:st["AVGO"]?.c,d:st["AVGO"]?.d,dp:st["AVGO"]?.dp,cat:"HİSSE"},
+    ];
+    const tHtml=tickDefs.map(i=>{
+      if(!i.v)return"";
+      const pct=i.pct??i.dp??0,up=i.up??(i.d>=0);
+      const pctStr=pct!==0?`<span class="tick-chg ${up?'up':'down'}">${up?'▲':'▼'}${Math.abs(pct).toFixed(2)}%</span>`:"";
+      return`<span class="tick-item"><span class="tick-label">${i.cat} </span><span class="tick-val">${i.l} <span style="color:#fff">${i.v.toLocaleString("tr-TR",{maximumFractionDigits:2})}</span></span>${pctStr}</span>`;
+    }).filter(Boolean).join("");
+    if(tHtml){const t=document.getElementById("ticker");t.innerHTML=tHtml+tHtml;}
+    const mDefs=[{l:"USD/TRY",v:fx["USD/TRY"]},{l:"EUR/TRY",v:fx["EUR/TRY"]},{l:"Altın (USD)",v:fx["XAU/USD"]},{l:"BTC/USD",v:btcPrice},{l:"EUR/USD",v:fx["EUR/USD"]}];
+    const mHtml=mDefs.map(i=>i.v?`<div class="market-item"><span style="font-weight:500">${i.l}</span><span style="font-weight:600">${i.v.toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>`:"").filter(Boolean).join("");
+    if(mHtml)document.getElementById("market-list").innerHTML=mHtml;
+    document.getElementById("portfolio-list").innerHTML=portfolio.map(p=>{
+      const q=st[p.t];
+      const price=q?"$"+q.c.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}):"–";
+      const up=q?.d>=0;
+      return`<div class="port-row"><div>
+        <div style="font-size:.83rem;font-weight:700;color:var(--dark)">${p.t}</div>
+        <div style="font-size:.7rem;color:var(--gray3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</div>
+      </div><div style="text-align:right">
+        <div style="font-size:.82rem;font-weight:600">${price}</div>
+        ${!p.special&&q?`<div style="font-size:.72rem;font-weight:600;color:${up?'#2d6a4f':'#c0392b'}">${up?'+':''}$${Math.abs(q.d).toFixed(2)} (${up?'+':''}${q.dp.toFixed(2)}%)</div>`:p.special?`<div style="font-size:.7rem;color:var(--gray3)">${t('money_market')}</div>`:''}
+      </div></div>`;
+    }).join("");
+  }catch(e){}
+  setTimeout(loadLiveData,60000);
+}
+
+// ===== HABERLER =====
+const NEWS_SOURCES=[
+  {name:"MarketWatch",url:"https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",color:"#e8f4fd",textColor:"#1a6fa6"},
+  {name:"FT",url:"https://www.ft.com/rss/home/international",color:"#fce8e8",textColor:"#a61a1a"},
+  {name:"Economist",url:"https://www.economist.com/finance-and-economics/rss.xml",color:"#e8f8f0",textColor:"#1a6a3f"},
+  {name:"CNBC",url:"https://www.cnbc.com/id/10000664/device/rss/rss.html",color:"#fef3e8",textColor:"#a66a1a"},
+  {name:"NYT Economy",url:"https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",color:"#f3e8fe",textColor:"#6a1aa6"},
+  {name:"Wash. Post",url:"https://feeds.washingtonpost.com/rss/business",color:"#e8f4fd",textColor:"#1a4fa6"},
+];
+const RSS_API="https://api.rss2json.com/v1/api.json?rss_url=";
+let allNews=[];
+
+async function fetchAllNews(){
+  document.getElementById("articles").innerHTML=`<div style="color:var(--gray3);font-size:.85rem;padding:1rem 0">${t('loading_news')}</div>`;
+  const results=await Promise.all(NEWS_SOURCES.map(async src=>{
+    try{
+      const d=await fetch(RSS_API+encodeURIComponent(src.url)).then(r=>r.json());
+      if(d.status!=="ok")return[];
+      return d.items.slice(0,5).map(item=>({
+        title:item.title,excerpt:item.description?.replace(/<[^>]+>/g,"").slice(0,150)||"",
+        url:item.link,date:new Date(item.pubDate).toLocaleString("tr-TR",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"short"}),
+        source:src.name,color:src.color,textColor:src.textColor
+      }));
+    }catch(e){return[];}
+  }));
+  allNews=results.flat().sort((a,b)=>new Date(b.date)-new Date(a.date));
+  renderNews();
+  setTimeout(fetchAllNews,3600000);
+}
+
+async function renderNews(){
+  const el=document.getElementById("articles");
+  let items=allNews.slice(0,12);
+  const target=t("translate_target");
+  if(target){
+    el.innerHTML=`<div style="color:var(--gray3);font-size:.85rem;padding:1rem 0">${t('translating')}</div>`;
+    try{
+      const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",max_tokens:2000,
+        system:`Translate the financial news headlines and excerpts to ${target}. Return ONLY a JSON array: [{title, excerpt}]. No markdown, no extra text.`,
+        messages:[{role:"user",content:JSON.stringify(items.slice(0,8).map(i=>({title:i.title,excerpt:i.excerpt})))}]
+      })});
+      const d=await res.json();
+      const tr=JSON.parse(d.content[0].text.replace(/```json|```/g,"").trim());
+      items=items.slice(0,8).map((item,i)=>({...item,title:tr[i]?.title||item.title,excerpt:tr[i]?.excerpt||item.excerpt}));
+    }catch(e){}
+  }
+  el.innerHTML=items.map(a=>`
+    <div class="card" onclick="window.open('${a.url}','_blank')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+        <span class="card-tag" style="background:${a.color};color:${a.textColor};margin-bottom:0">${a.source}</span>
+        <span style="font-size:.7rem;color:var(--gray3)">${a.date}</span>
+      </div>
+      <h2 style="font-size:.95rem">${a.title}</h2>
+      <p style="font-size:.8rem;margin-top:.4rem">${a.excerpt}...</p>
+      <div style="font-size:.7rem;color:var(--gray3);margin-top:.5rem">${t('read_article')}</div>
+    </div>`).join("");
+}
+
+// ===== RİSKOMETRE =====
+function scoreColor(s){return s<=20?"#2d9e6b":s<=40?"#6abf4b":s<=55?"#f5c518":s<=75?"#f08c1a":"#c0392b";}
+
+function drawGauge(canvas,now,prev){
+  const W=canvas.width,H=canvas.height,cx=W/2,cy=H-10,R=H*1.1,r=R-30;
+  const ctx=canvas.getContext("2d");ctx.clearRect(0,0,W,H);
+  [{from:0,to:.2,color:"#2d9e6b"},{from:.2,to:.42,color:"#6abf4b"},{from:.42,to:.58,color:"#f5c518"},{from:.58,to:.78,color:"#f08c1a"},{from:.78,to:1,color:"#c0392b"}].forEach(z=>{
+    ctx.beginPath();ctx.arc(cx,cy,R,Math.PI*(1+z.from),Math.PI*(1+z.to));ctx.arc(cx,cy,r,Math.PI*(1+z.to),Math.PI*(1+z.from),true);ctx.closePath();ctx.fillStyle=z.color;ctx.fill();
+  });
+  ctx.font="bold 9px Inter,sans-serif";ctx.fillStyle="#555";ctx.textAlign="center";
+  [{pct:.10,text:["Düşük","Riskli"]},{pct:.31,text:["Orta","Riskli"]},{pct:.50,text:["Nötr"]},{pct:.68,text:["Riskli"]},{pct:.90,text:["Aşırı","Riskli"]}].forEach(lb=>{
+    const a=Math.PI*(1+lb.pct),lx=cx+(r-14)*Math.cos(a),ly=cy+(r-14)*Math.sin(a);
+    lb.text.forEach((txt,i)=>ctx.fillText(txt,lx,ly+(i-(lb.text.length-1)/2)*11));
+  });
+  ctx.font="bold 10px Inter,sans-serif";ctx.fillStyle="#999";
+  ctx.textAlign="left";ctx.fillText("0",cx-R-2,cy+14);
+  ctx.textAlign="right";ctx.fillText("100",cx+R+2,cy+14);
+  const needle=(score,color,width,dashed)=>{
+    const a=Math.PI*(1+score/100);
+    ctx.beginPath();if(dashed)ctx.setLineDash([5,4]);else ctx.setLineDash([]);
+    ctx.moveTo(cx,cy);ctx.lineTo(cx+R*.72*Math.cos(a),cy+R*.72*Math.sin(a));
+    ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap="round";ctx.stroke();ctx.setLineDash([]);
+  };
+  needle(prev,"#999",2,true);needle(now,"#1a1a2e",3.5,false);
+  ctx.beginPath();ctx.arc(cx,cy,7,0,2*Math.PI);ctx.fillStyle="#1a1a2e";ctx.fill();
+}
+
+function renderRiskTabs(){
+  const el=document.getElementById("risk-tabs");el.innerHTML="";
+  Object.keys(riskData).forEach(k=>{
+    const b=document.createElement("button");b.className="risk-tab"+(k===activeRisk?" active":"");b.textContent=k;
+    b.addEventListener("click",()=>{activeRisk=k;renderRiskTabs();renderRiskPanel();});el.appendChild(b);
+  });
+}
+
+function renderRiskPanel(){
+  const d=riskData[activeRisk];
+  document.getElementById("risk-title").textContent=activeRisk;
+  drawGauge(document.getElementById("gauge-canvas"),d.now,d.prev);
+  const sn=document.getElementById("s-now");sn.textContent=d.now;sn.style.background=scoreColor(d.now);
+  const sp=document.getElementById("s-prev");sp.textContent=d.prev;sp.style.background=scoreColor(d.prev);
+  const sm=document.getElementById("s-month");sm.textContent=d.month;sm.style.background=scoreColor(d.month);
+  document.getElementById("risk-c1").innerHTML=d.c1;
+  document.getElementById("risk-c2").innerHTML=d.c2;
+  const pct=d.pMax!==d.pMin?((d.pVal-d.pMin)/(d.pMax-d.pMin))*100:50;
+  document.getElementById("perf-marker").style.left=Math.min(Math.max(pct,0),100)+"%";
+  document.getElementById("p-min").textContent="Min: "+d.pMin;
+  document.getElementById("p-val").textContent=(d.pVal>0?"+":"")+d.pVal;
+  document.getElementById("p-max").textContent="Max: "+d.pMax;
+}
+
+// ===== CHAT =====
+async function sendChat(){
+  const inp=document.getElementById("chat-input");
+  const q=inp.value.trim();if(!q)return;inp.value="";
+  const msgs=document.getElementById("chat-messages");
+  const uDiv=document.createElement("div");uDiv.className="msg user";uDiv.textContent=q;msgs.appendChild(uDiv);
+  const aDiv=document.createElement("div");aDiv.className="msg ai";aDiv.textContent=t("thinking");aDiv.style.color="var(--gray3)";msgs.appendChild(aDiv);
+  msgs.scrollTop=msgs.scrollHeight;
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:t("ai_system"),messages:[{role:"user",content:q}]})});
+    const d=await res.json();aDiv.style.color="var(--dark)";aDiv.style.fontStyle="normal";aDiv.textContent=d.content[0].text;
+  }catch(e){aDiv.textContent=t("error");}
+  msgs.scrollTop=msgs.scrollHeight;
+}
+document.getElementById("chat-input").addEventListener("keydown",e=>{if(e.key==="Enter")sendChat();});
+
+// ===== MODAL =====
+function closeModal(){document.getElementById("modal").classList.remove("active");}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal();});
+
+// ===== INIT =====
+applyI18n();
+renderRiskTabs();
+renderRiskPanel();
+loadLiveData();
+fetchAllNews();
+</script>
+</body>
+</html>
